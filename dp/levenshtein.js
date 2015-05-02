@@ -81,11 +81,8 @@ function levenshtein (s_str, t_str) {
 	return jsonArr;
 }
 
-function levenBoard (svgContainer, jsonArr, s_str, t_str) {
+function levenBoard (svgContainer, jsonArr) {
 	
-	var s = s_str.split("");
-	var t = t_str.split("");
-
 	//Adding rectangle objects to SVG
 	var squares = svgContainer.selectAll("rect")
 		.data(jsonArr)
@@ -94,13 +91,30 @@ function levenBoard (svgContainer, jsonArr, s_str, t_str) {
 
 	//Drawing rectangles
 	var squareAttributes = squares
-		.attr("x", function (d) {return 50*d.i + 10;})
-		.attr("y", function (d) {return 50*d.j + 10;})
+		.attr("x", function (d) {return 50*d.i + 50;})
+		.attr("y", function (d) {return 50*d.j + 50;})
 		.attr("width", 50)
 		.attr("height", 50)
 		.style("stroke", "black")
 		.style("stroke-width", 2)
 		.attr("fill", "white");
+
+
+	jsonArr.push(
+		{"i": 1, "j": -.75, "d": "s"},
+		{"i": 2, "j": -.75, "d": "i"},
+		{"i": 3, "j": -.75, "d": "t"},
+		{"i": 4, "j": -.75, "d": "t"},
+		{"i": 5, "j": -.75, "d": "i"},
+		{"i": 6, "j": -.75, "d": "n"},
+		{"i": 7, "j": -.75, "d": "g"},
+		{"i": -.9, "j": 1, "d": "k"},
+		{"i": -.9, "j": 2, "d": "i"},
+		{"i": -.9, "j": 3, "d": "t"},
+		{"i": -.9, "j": 4, "d": "t"},
+		{"i": -.9, "j": 5, "d": "e"},
+		{"i": -.9, "j": 6, "d": "n"});
+	
 
 	//Adding text objects to SVG
 	var text = svgContainer.selectAll("text")
@@ -110,44 +124,26 @@ function levenBoard (svgContainer, jsonArr, s_str, t_str) {
 
 	//Drawing text
 	var textLabels = text
-		.attr("x", function (d) {return 50*d.i + 35;})
-		.attr("y", function (d) {return 50*d.j + 35;})
+		.attr("x", function (d) {return 50*d.i + 75;})
+		.attr("y", function (d) {return 50*d.j + 75;})
 		.text(function (d) {return d.d;})
 		.attr("font-family", "sans-serif")
 		.attr("font-size", "14px")
 		.attr("fill", "black");
 
-	var jsonLabels = [
-		{x: 85, y: 50, text: s[0]},
-		{x: 85, y: 50, text: s[1]},
-		{x: 85, y: 50, text: s[2]},
-		{x: 85, y: 50, text: s[3]},
-		{x: 85, y: 50, text: s[4]},
-		{x: 85, y: 50, text: s[5]},
-		{x: 85, y: 50, text: s[6]}
-	];
 
-	// for (i = 0; i < s.length; i++){
-	// 	jsonLabels.push({
-	// 		x: 85,
-	// 		y: 50,
-	// 		text: s[i]
-	// 	});
-	// 	console.log(s[i]);
-	// }
 
-	var text = svgContainer.selectAll("text")
-		.data(jsonLabels)
-		.enter()
-		.append("text");
+	// var text2 = svgContainer.selectAll("text")
+	// 	.data(jsonLabels)
+	// 	.enter()
+	// 	.append("text");
 
-	//Drawing text
-	var textLabels = text
-		.attr("x", function (d) {return d.x;})
-		.attr("y", function (d) {return d.y;})
-		.text(function (d) {return d.text;})
-		.attr("font-family", "sans-serif")
-		.attr("font-size", "14px")
-		.attr("fill", "black");
-
+	// //Drawing text
+	// var textLabels = text2
+	// 	.attr("x", function (d) {return d.x;})
+	// 	.attr("y", function (d) {return d.y;})
+	// 	.text( function (d) {return d.text;})
+	// 	.attr("font-family", "sans-serif")
+	// 	.attr("font-size", "14px")
+	// 	.attr("fill", "black");
 }
