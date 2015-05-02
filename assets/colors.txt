@@ -1,0 +1,5 @@
+#fff8ea cream
+#e7b07c orange
+#63adaa blue
+#777777 dark gray
+#aaaaaa lite gray

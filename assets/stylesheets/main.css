@@ -1,0 +1,129 @@
+/* CSS Reset http://meyerweb.com/eric/tools/css/reset/ v2.0 20110126 */
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,
+a,abbr,acronym,address,big,cite, code,del,dfn,em,img,ins,kbd,q,s,samp,small,
+strike,strong,sub,/*sup,*/tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,
+legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,
+embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,
+summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;
+font:inherit;vertical-align:baseline;}article,aside,details,figcaption,figure,
+footer,header,hgroup,menu,nav,section{display:block;}body{line-height:1;}
+ol,ul{list-style:none;}blockquote,q{quotes:none;}blockquote:before,
+blockquote:after,q:before,q:after{content:'';content:none;}table{
+border-collapse:collapse;border-spacing:0;}
+
+/* Text */
+h1 {
+    width: 100%;
+    margin-bottom: .85em;
+    border-bottom: 1px solid #c5c5c5;
+    padding-bottom: .75em;
+    font-family: "PT Sans", "sans-serif";
+    font-size: 275%;
+    line-height: 135%;
+}
+
+h2 {
+    margin-left: .1em;
+    margin-bottom: .75em;
+    font-family: "PT Sans", "sans-serif";
+    font-size: 150%;
+    line-height: 140%;
+    color: #ffa090;
+}
+
+h3, p, ol, ul {
+    margin-bottom: 1em;
+    font-size: 100%;
+    line-height: 160%;
+} h3 {
+    font-weight: bold;
+} p {
+    margin-left: .2em;
+} ol, ul {
+    padding-right: 3em;
+    text-align: left;
+    list-style-position: outside;
+} ol {    
+    padding-left: 2.1em;
+    list-style-type: decimal;
+} ul {    
+    padding-left: 2em;
+    list-style-type: circle;
+} li {
+    margin-bottom: .5em;
+}
+
+p .code {
+    border: .1em solid #ddd6c8;
+    margin-top: 1em;
+    margin-bottom: .9em;
+    padding: .9em 1em .75em 1em;
+    font-family: "Courier New", "monospace";
+    font-size: 90%;
+}
+
+.italic {font-style: italic;}
+
+.bold {font-weight: bold;}
+
+/* Links */
+a {
+    transition: all .25s ease;
+    border-bottom: 1px solid #c5c5c5;
+    text-decoration: none;
+    color: #666666;
+} a:hover {
+    border-bottom-color: #66ddcc;
+    color: #66ddcc; 
+} a:active {
+    outline: 0;
+}
+
+/* Containers */
+html, body {
+    width: 100%;
+    margin: 1.5% auto 1.75% auto;
+    font-family: "Gentium Basic", "serif";
+    font-size: 16px;
+    text-align: left;
+    background: #dddddd;
+    color: #666666;
+} html {
+    overflow-y: scroll;
+    width: 95%;
+    max-width: 60em;
+} body {
+    min-width: 650px;
+}
+
+header, footer {
+    transition: background .25s ease;
+    background: #aaaaaa;
+    font-family: "PT Sans", "sans-serif";
+    text-align: center;
+    color: #ffffff;
+} header {
+    margin-bottom: 4%;
+    padding: 1.25em 1em 1.15em 1em;
+    font-size: 200%;
+    line-height: 140%;
+    font-style: italic;
+    text-shadow: .04em .04em #888888;
+    box-shadow: .2em .225em 0em #c5c5c5;
+} footer {
+    padding: 3.2em 2em 3.3em 2em;
+    box-shadow: .4em .45em 0em #c5c5c5;
+} header:hover, footer:hover {
+    background: #66ddcc;
+}
+
+article {
+    max-width: 47.5em;
+    margin: 0 2.5% 3.5% 3%;
+    padding: 2.75em 2em 3em 2em;
+    background: #ffffff;
+} @media screen and (min-width: 769px) {
+    article {
+	padding: 6em 4em 6.75em 4em;
+    }
+}

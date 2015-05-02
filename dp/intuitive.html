@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=yes">
+    <link rel="stylesheet" href="../assets/stylesheets/main.css">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Gentium+Basic:400,700,400italic,&subset=latin,latin-ext">
+    <title>Intuitive Overview</title>
+  </head>
+
+  <body>
+    <a href="../">
+      <header>Dynamic Programming</header>
+    </a>
+
+    <article>
+      <h1>Intuitive Overview</h1>
+      <h2>Motivation</h2>
+      <p>
+	Say we have a problem we want to solve. To brute-force the solution, we
+	can break the problem into all possible subproblems, then solve
+	them. This gives us the answer to the original problem.
+      </p>
+      <p>
+	Unfortunately, we run the risk of creating duplicate subproblems. This
+	is problematic because solving the same subproblem more than once is a
+	waste of time and resources.
+      </p>
+      <p>
+	To avoid this, we can store answers to subproblems as we solve
+	them. When we encounter a duplicate subproblem, we simply look up the
+	stored answer instead of computing it again. Going one step further, we
+	can purposefully divide the problem to create lots of overlapping
+	(duplicate) subproblems, thus generating computational savings.
+      </p>
+      <p>
+	This "smarter" variant of brute-force search is called Dynamic
+	Programming (DP).
+      </p>
+      <p>
+	There are two approaches to DP: tabulation and memoization.
+      </p>
+      <ol>
+	<li>
+	  <span class="bold">Tabulation</span> is bottom up. The values of the
+	  lowest level subproblems get calculated and stored first. These
+	  tabulated values are then iteratively used to answer the next level of
+	  subproblems, and so on.
+	</li>
+	<li>
+	  <span class="bold">Memoization</span> is top down. Instead of solving
+	  subproblems interatively, memoization solves subproblems
+	  recursively. Since higher-level subproblems often make
+	  duplicate recursive calls, they can be eliminated.
+	</li>
+      </ol>
+      <br>
+
+      <h2>Example: Fibonacci Numbers</h2>
+      <p>
+	A good example of DP using memoization is the Fibonacci Sequence. Say we
+	have a recursive algorithm <span class="italic">Fib(n)</span> that
+	determines the <span class="italic">n</span>th Fibonacci number.  To
+	calculate the <span class="italic">n</span>th Fibonacci number, we have
+	to know the values of the (<span class="italic">n-1</span>)st and the
+	(<span class="italic">n-2</span>)nd Fibonacci numbers. So we call
+	<span class="italic">Fib()</span> two more times, and then continue
+	recursing in those respective calls. In the complete recursion tree for
+	<span class="italic">Fib(3)</span>, the value
+	of <span class="italic">Fib(0)</span> is required three times.
+	Therefore, DP saves us two redundant calls to the algorithm:
+      </p>
+      <img src="../assets/imgs/fibonacci.png" alt="Fibonacci" style="display:block;
+								     max-height:25em; width:auto; margin: 0em auto 1em auto;"/>
+      <br>
+
+      <h2>Vs. other Algorithms</h2>
+      <p>
+	The mechanics of DP may resemble those of greedy and divide & conquer
+	algorithms. The differences are explained below:
+      </p>
+      <ol>
+	<li>
+	  DP can appear <a href="https://en.wikipedia.org/wiki/Greedy_algorithm"
+	  target="_blank">greedy</a> when it is used to solve optimization
+	  problems. Much like a greedy algorithm, a DP algorithm will choose the
+	  best value at each iteration. A DP algorithm, however, is guaranteed
+	  optimality, because every subproblem is calculated from the optimal
+	  solution to its subproblem(s). Greedy algorithms give no guarantee of
+	  optimality.
+	</li>
+	<li>
+	  DP
+	  and <a href="https://en.wikipedia.org/wiki/Divide_and_conquer_algorithms"
+		 target="_blank">divide and conquer (D&C)</a> both break up problems
+	  into subproblems. The difference is that each subproblem in D&C is
+	  unique and does not have duplicates. In addition, the
+	  subproblems in D&C are basically all the same size; in DP, the
+	  subproblems can be of arbitrary sizes.
+	</li>
+      </ol>
+      <br>
+
+      <h2>High-level Implementation</h2>
+      <p>
+	To implement a DP problem, we create a data structure that represents
+	all subproblems (such as a graph or 2-D array). When a call to a
+	subproblem is made, we first check if the spot in the data structure
+	already contains the answer. If not, we calculate the answer and store
+	it there.
+      </p>
+      <br>
+
+      <h2>Conclusion</h2>
+      <p>
+	We’ve attempted to motivate and illustrate dynamic programming at a high
+	level.
+      </p>
+      <ul>
+	<li>
+	  Here is a more <a href="indepth.html">in-depth look</a>.
+	</li>
+	<li>
+	  This is more on <a href="tab-memo.html">tabulation and memoization</a>.
+	</li>
+      </ul>
+    </article>
+
+    <a href="../about">
+      <footer>&copy; AA & JS</footer>
+    </a>
+  </body>
+</html>

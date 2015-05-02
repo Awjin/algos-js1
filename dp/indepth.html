@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=yes">
+    <link rel="stylesheet" href="../assets/stylesheets/main.css">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Gentium+Basic:400,700,400italic,&subset=latin,latin-ext">
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script type="text/javascript" language="JavaScript"
+    src="indepthdp.js"></script>
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+    </script>
+    <script type="text/javascript"
+	    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+
+
+    <title>In-Depth Look</title>
+  </head>
+
+  <body>
+    <div class="wrapper">
+      <a href="../index.html">
+	<header>Dynamic Programming</header>
+      </a>
+
+      <article>
+	<h1>In-Depth Look</h1>
+	<h2>Introduction</h2>
+
+	<p>
+	  In Dynamic Programming (DP), a large problem is broken down into
+	  smaller subproblems, the solutions to which build on top of each other
+	  to ultimately give the solutions to subsequent subproblems. Once the
+	  entire solution space has been explored, the solution to the original
+	  problem will be achieved.
+	</p>
+
+	<p>
+	  We will illustrate this method with a simple example problem.
+	</p>
+	
+	<br>
+
+	<h2>Example: Checkerboard Problem</h2>
+
+	<div id="checker" style="text-align:center;">
+	</div>
+
+	<p>
+	  Given an $n\ x\ n$ checkerboard and one checker, we want to move the
+	  checker from the top row to the bottom row. Every step, we can move
+	  the checker to either:
+	</p>
+
+	<ol>
+	  <li>the square directly below its current location,</li>
+	  <li>the square below and to the left (if the checker is not already in
+	  the leftmost column), or</li>
+	  <li>the square below and to the right (if the checker is not already
+	  in the rightmost column).</li>
+	</ol>
+
+	<p>
+	  Note: we will refer to the possible spaces from a square $x$ as
+	  its <span class="italic">children</span>.
+	</p>
+
+	<p>
+	  Each time we move the checker, we receive a reward. $R(x,y)$ is the
+	  reward received when moving from square $x$ to square $y$. Rewards can
+	  be positive or negative.
+	</p>
+
+	<p>
+	  The goal is to find a path starting in the top row and ending in the
+	  bottom row which maximizes the reward received, and to find this path
+	  in polynomial time.
+	</p>
+
+	<br>
+	<h3>Brute Force Solution
+	(<span class="italic">CheckersBrute</span>)</h3>
+	<p>
+	  To solve this problem, we will need to explore all possible paths that
+	  can be taken from the top row to the bottom row and calculate the
+	  reward for each. This could be achieved using a brute force algorithm,
+	  as such:
+	</p>
+
+	<ol>
+	  <li>For all squares in the top row:
+	    <ul>
+              <li>calculate the reward received by taking each valid path from
+              that square to a square in the bottom row.</li>
+              <li>Save each path and associate the reward with that path.</li>
+	    </ul>
+	  <li>Return the path with the highest associated reward.</li>
+	</ol>
+
+	<br>
+	<h3>Complexity Analysis of <span class="italic">CheckersBrute</span>
+	algorithm</h3>
+
+	<p>
+	  This algorithm looks at all possible paths originating from each of
+	  the top squares. Let’s consider a square in the middle of the top
+	  row. This square will look at the paths originating from its three
+	  children, and so on.
+	</p>
+
+	<div id="brute" style="text-align:center;">
+	</div>
+
+	<p>
+	  At level $l$, there are $3(1 + 2l)$ recursive calls made. There are
+	  $n$ rows (levels), so we have total work =
+
+	  $$\begin{align} \sum_{i=0}^n {3(1+2i)} & = \sum_{i=0}^n {3 + 6i} \\ &
+	  = \sum_{i=0}^n {3} + \sum_{i=0}^n {6i} \\ & = 3n + 6*\sum_{i=0}^n {i}
+	  \\ & = 3n + 6\frac{n(n+1)}{2} \\ & = 3n + 6*\frac{n^2 + n}{2} \\ & =
+	  3n + 3n^2 + 3n \\ & = 3n^2 + 6n \\ \end{align}$$
+
+	  There are $n$ columns of recursive calls giving work over all columns
+	  $\leq n(3n^2 + 6n) = 3n^3 + 6n^2 = O(n^3)$.
+	</p>
+
+	<p>
+	  There are two ways, however, in which this algorithm is very wasteful.
+	  <ol>
+	    <li>Many of the paths will have overlaps, but these will be
+	    recalculated for every path.</li>
+	    <li>From any given square, there will exist at least one path which
+	    will give the highest possible reward from that square to the top
+	    row. Because of this, once the highest possible reward from a
+	    certain square has been calculated, there is no need to consider
+	    other possible paths from this square.</li>
+	  </ol>
+
+	</p>
+
+	<br>
+
+	<h3>Dynamic Programming Solution
+	(<span class="italic">CheckersDP</span>)</h3>
+	<p>
+	  Starting from the leftmost square in the top row $(0,0)$, we calculate
+	  the max path-value of its (at most) three children. If a child is not
+	  yet memoized, we recursively call the algorithm on its children. This
+	  process is repeated until the recursive algorithm is called on a
+	  bottom level square, in which case it hits the base case and returns
+	  0.
+	</p>
+	<p>
+	  For example, a square $a$ in the row before last will look at its
+	  three children $b_1$, $b_2$, and $b_3$. These are all base case states
+	  so they will each return a <span class="italic">max-path-value</span>
+	  of 0. The max $R(a,b_i)$ will be picked as $a$’s max-path-value and
+	  stored in $V(a)$: $$V(a) = \max\{R(a,b_1), R(a,b_2), R(a,b_3)\}.$$
+	</p>
+
+	<div id="base" style="text-align:center;">
+	</div>
+
+	<p>
+	  After the call on square $(0,0)$ recurses completely, the algorithm
+	  moves onto the square to its right $(1,0)$. At this point, many of the
+	  squares along paths from square $(1,0$) are already associated with
+	  max-path-values. Because we memoize solutions to the subproblems as we
+	  go, we are able to cut out 2 of 3 recursive calls at every level (the
+	  left and middle children), reducing the amount of recursive calls to
+	  just 1.
+	</p>
+
+	<p>
+	  Once the last call to the top row (n-1,0) has finished recursing, our
+	  table V will contain the max-path-value from every square on the
+	  checkerboard. To return the path to take, we simply start at the
+	  square in the top row with the highest value in V. We then look at the
+	  children of that square and pick the one with the highest value in
+	  V. We repeat this process until we reach the bottom row, in which case
+	  we are done.
+	  
+	  <ul><li>Note: to pick the last square of the path, we will have to
+	  look at the rewards for the three children of the square in the n-1th
+	  row.</li></ul>
+	</p>
+
+	<p>
+	</p>
+
+	<br>
+	<h3>Complexity Analysis of <span class="italic">CheckersDP</span>
+	algorithm</h3>
+
+	<p>
+	  During the call to $(0,0)$, the max-path-values will be calculated for
+	  all the gray squares.
+
+	  In the following call to $(1,0)$, the gray squares already have values
+	  associated with them in our table V, so only the blue squares must
+	  have their values calculated.
+	  <br>
+	  Similarly, the calls to $(2,0)$, $(3,0)$, etc. will only calculate
+	  max-path-values for their right children and will look up the rest in
+	  V.
+
+	  <ul><li>Note: Even during the call to $(0,0)$, time will be saved
+	  because each value will be saved in $V$ and when other squares in the
+	  gray section need the max values for one of those, it can just query
+	  $V$. In this way, each square’s max-path-value is only calculated
+	  once. </li></ul>
+	</p>
+
+	<div id="dpSolution" style="text-align:center;">
+	</div>
+
+	<p>
+	  Since we are cutting out a lot of recursive calls using memoization,
+	  we essentially only call recursively along the diagonals, which are a
+	  length $kn$. Since there are $n$ squares in the top row, we make $n$
+	  calls of $kn$ work each. This means that the DP algorithm will have a
+	  running time of $kn*n = O(n^2)$.
+	  <ul><li>This makes sense because we only calculate the path-value of
+	  each square once, since it is memoized.</li></ul>
+	</p>
+
+	<br>
+	<h2>Further Details</h2>
+
+	<p>
+	  Because this problem involves overlapping subproblems, it is naturally
+	  a good candidate for a Dynamic Programming solution. As shown in the
+	  above analyses, by using DP instead of a brute force algorithm, we
+	  reduced the total work by a factor of $n$. In this solution, we used
+	  memoization to recursively calculate the solutions for subproblems
+	  which we then used to calculate the solutions to larger
+	  problems. Alternatively, tabulation could have been used to build up
+	  solutions from the bottom up.
+	</p>
+
+	<p>
+	  Check out this page for more information
+	  on <a href="tab-memo.html">memoization and tabulation</a>, their
+	  differences and similarities, and respective pros and cons.
+	</p>
+
+      </article>
+
+      <div class="push"></div>
+    </div>
+
+    <a href="../about/index.html">
+      <footer>&copy; AA & JS</footer>
+    </a>
+  </body>
+</html>
+
+<script>
+  
+  var svg = d3.select("#checker").append("svg") .attr("width", 500)
+  .attr("height", 500);
+
+  checkerBoard(svg);
+</script>
+
+<script>
+  var svg = d3.select("#brute").append("svg") .attr("width", 525)
+  .attr("height", 300);
+
+  bruteForce(svg);
+</script>
+
+<script>
+  var svg = d3.select("#base").append("svg") .attr("width", 300) .attr("height",
+  150);
+
+  baseCase(svg);
+</script>
+
+<script>
+  var svg = d3.select("#dpSolution").append("svg") .attr("width", 500)
+  .attr("height", 500);
+
+  dpSolution(svg);
+</script>
+
