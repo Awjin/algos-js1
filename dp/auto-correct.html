@@ -9,6 +9,12 @@
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script type="text/javascript" language="JavaScript"
 	    src="levenshtein.js"></script>
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+    </script>
+    <script type="text/javascript"
+	    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
     <title>Auto-Correct</title>
   </head>
 
@@ -45,6 +51,18 @@
 	respectively. The Levenshtein distance algorithm is recursively defined
 	as follows:
       </p>
+      $$lev_{A,B}(i,j) =
+      \begin{cases}
+      \max(i,j) & \text{if} \min(i,j)=0,\\
+      \min
+      \begin{cases}
+      lev_{A,B}(i-1,j)+1 \\
+      lev_{A,B}(i,j-1)+1 \\
+      lev_{A,B}(i-1,j-1)+1_{(A_i\neq B_j)}
+      \end{cases} & \text{otherwise}
+      \end{cases}
+      $$
+
       <p>
 	In English:
       </p>
@@ -75,7 +93,7 @@
 	Even though the algorithm was recursively defined, since we need the
 	values of all subproblems anyway, we should implement the algorithm
 	using tabulation. Here is what the subproblem space looks like, once the
-	algorithm runs.
+	algorithm runs:
       </p>
 
       <p>
