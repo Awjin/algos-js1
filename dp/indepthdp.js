@@ -89,7 +89,7 @@ function bruteForce(svgContainer) {
 	var squares = svgContainer.selectAll("rect")
 		.data(jsonSquares)
 		.enter()
-		.append("rect")
+		.append("rect");
 
 	//Drawing rectangles
 	var squareAttributes = squares
